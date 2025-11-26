@@ -1,0 +1,26 @@
+# 1. 檢查是否已有 OpenSSH Server
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Server*'
+
+# 2. 安裝 OpenSSH Server（自動抓最適合版本）
+$cap = Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Server*'
+If ($cap.State -ne "Installed") {
+    Add-WindowsCapability -Online -Name $cap.Name
+}
+
+# 3. 啟動 sshd
+Start-Service sshd
+
+# 4. 設定自動啟動
+Set-Service -Name sshd -StartupType Automatic
+
+# 5. 防火牆允許 22 port
+If (-not (Get-NetFirewallRule -Name sshd -ErrorAction SilentlyContinue)) {
+    New-NetFirewallRule -Name sshd -DisplayName "OpenSSH Server (sshd)" `
+        -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+}
+
+# 6. 檢查服務狀態
+Get-Service sshd
+
+# 7. 確認 22 port 正在 LISTEN
+netstat -an | Select-String ":22 " | Select-String "LISTENING"
