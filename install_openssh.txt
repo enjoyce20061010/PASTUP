@@ -52,3 +52,7 @@ netstat -an | Select-String ":22 " | Select-String "LISTENING"
 # - 需要 Windows 10 1809 或更高版本
 # - 需要管理员权限
 # - 确保防火墙允许 22 端口
+
+
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
