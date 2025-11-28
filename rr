@@ -1,0 +1,5 @@
+Restart-Service sshd; Start-Sleep -Seconds 1; Get-Service sshd | Format-Table Name, Status
+
+Restart-Service sshd
+
+Get-Content "C:\ProgramData\ssh\sshd_config" | Select-String "^Port"
