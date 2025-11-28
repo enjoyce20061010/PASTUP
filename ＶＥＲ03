@@ -1,0 +1,28 @@
+# 1. 檢查 SSH 服務狀態
+Get-Service sshd | Format-Table Name, Status, StartType
+
+# 2. 檢查 SSH 設定檔位置
+$sshConfig = "C:\ProgramData\ssh\sshd_config"
+Write-Host "SSH 設定檔: $sshConfig"
+Test-Path $sshConfig
+
+# 3. 查看當前連接埠設定
+Get-Content $sshConfig | Select-String "^Port"
+
+# 4. 測試設定檔語法（需要管理員權限）
+& "C:\Windows\System32\OpenSSH\sshd.exe" -t -f $sshConfig
+
+# 5. 查看 SSH 服務日誌
+Get-EventLog -LogName Application -Source sshd -Newest 10 | Format-Table TimeGenerated, EntryType, Message
+
+
+
+# 一鍵檢查
+$config = "C:\ProgramData\ssh\sshd_config"
+Write-Host "=== SSH 設定檔檢查 ===" -ForegroundColor Yellow
+Write-Host "檔案位置: $config"
+Write-Host "檔案存在: $(Test-Path $config)"
+Write-Host "`n當前連接埠設定:"
+Get-Content $config | Select-String "^Port"
+Write-Host "`n服務狀態:"
+Get-Service sshd | Select-Object Name, Status
