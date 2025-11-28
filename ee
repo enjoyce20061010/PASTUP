@@ -1,0 +1,5 @@
+# 測試設定檔語法
+& "C:\Windows\System32\OpenSSH\sshd.exe" -t -f "C:\ProgramData\ssh\sshd_config"
+
+# 查看最近的錯誤日誌
+Get-EventLog -LogName Application -Source sshd -Newest 20 | Format-Table TimeGenerated, EntryType, Message
