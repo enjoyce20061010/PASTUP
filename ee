@@ -3,3 +3,6 @@
 
 # 查看最近的錯誤日誌
 Get-EventLog -LogName Application -Source sshd -Newest 20 | Format-Table TimeGenerated, EntryType, Message
+
+
+$config = Get-Content "C:\ProgramData\ssh\sshd_config"
